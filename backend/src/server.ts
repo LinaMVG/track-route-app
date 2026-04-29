@@ -9,6 +9,7 @@ import websocket from '@fastify/websocket';
 import {randomUUID} from 'crypto';
 import { getDatabasePool } from './shared/container';
 import { authRoutes } from './interfaces/http/routes/auth.routes';
+import {routeRoutes} from './interfaces/http/routes/route.routes'
 
 import {logger} from './shared/logger';
 import {errorHandler} from './shared/errors/error-handler';
@@ -75,10 +76,14 @@ async function buildServer() {
     });
 
     app.setErrorHandler(errorHandler);
-        await app.register(async (api) =>{
+    await app.register(async (api) => {
         await api.register(authRoutes, { prefix: '/auth', pool });
-        //siguientes rutas
-    }, {prefix: '/api'});
+        try {
+            await api.register(routeRoutes, { prefix: '/routes', pool });
+        } catch (err) {
+            console.error('[DEBUG] routeRoutes FALLÓ al registrarse:', err);
+        }
+    }, { prefix: '/api' });
 
     app.get('/health', async () => ({
         status: 'ok', timestamp: new Date().toISOString()

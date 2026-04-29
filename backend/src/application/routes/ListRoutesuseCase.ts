@@ -10,6 +10,7 @@ export class ListRoutesUseCase {
   ): Promise<PaginationResult<Route>> {
     return this.routeRepo.findAll(filters, {
       ...pagination,
-      offset: Math.min(pagination.offset, 100),     });
+      offset: Math.min(Number(pagination.offset) || 20, 100),
+    });
   }
 }

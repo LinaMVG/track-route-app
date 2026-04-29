@@ -1,11 +1,18 @@
+import "dotenv/config";
+
 import { readFileSync } from "fs";
 import { join } from "path";
 import { Pool } from "pg";
-import { logger } from "../shared/logger";
+import { logger } from "../../shared/logger";
 
 async function runMigrations(): Promise<void> {
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    // user: "postgres",
+    // password: "password",
+    // host: "localhost",
+    // port: 5432,
+    // database: "track_route_db",
   });
 
   const migrations = [
