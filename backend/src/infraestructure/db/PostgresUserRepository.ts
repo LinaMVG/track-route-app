@@ -27,7 +27,7 @@ export class PostgressUserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User | null> {
     const result = await this.pool.query("SELECT * FROM users WHERE id = $1 AND is_active = true LIMIT 1", [
-      [id],
+      id,
     ]);
     return result.rows.length > 0 ? mapRowToUser(result.rows[0]) : null;
   }
