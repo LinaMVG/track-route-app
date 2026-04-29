@@ -5,6 +5,7 @@
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -15,13 +16,11 @@
     "sourceMap": true,
     "experimentalDecorators": false,
     "paths": {
-        "@domain/*" : ["src/domain/*"],
-        "@application/*" : ["src/application/*"],
-        "@infraestructure/*" : ["src/infraestructure/*"],
-        "@interfaces/*" : ["src/interfaces/*"],
-        "@shared/*" : ["src/shared/*"]
-
-
+      "@domain/*": ["src/domain/*"],
+      "@application/*": ["src/application/*"],
+      "@infraestructure/*": ["src/infraestructure/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
   "include": ["src/**/*"],

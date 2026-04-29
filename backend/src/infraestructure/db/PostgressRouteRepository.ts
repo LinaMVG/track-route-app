@@ -87,7 +87,7 @@ export class PostgressRouteRepository implements IRouteRepository {
         }
 
         const where = conditions.join(' AND ');
-        const limit = pagination.offset ;
+        const limit = Math.min(Number(pagination.offset) ||20, 100) ;
         
         const query = `SELECT r.* FROM routes r WHERE ${where} ORDER BY r.created_at DESC, r.id DESC LIMIT $${paramIndex}`;
         params.push(limit +1);
@@ -137,8 +137,10 @@ export class PostgressRouteRepository implements IRouteRepository {
     const result = await this.pool.query(
       `INSERT INTO routes
          (origin_city, destination_city, vehicle_type, status, carrier,
-          cost, distance_km, region, scheduled_at, estimated_at, created_by)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+          cost, distance_km, estimated_time_hours, region, scheduled_at, estimated_at, created_by)
+       VALUES ($1,$2,$3,$4,$5,
+               $6::numeric, $7::numeric, $8::numeric,
+               $9, $10::timestamptz, $11::timestamptz, $12::uuid)
        RETURNING *`,
       [
         data.originCity,
@@ -147,7 +149,12 @@ export class PostgressRouteRepository implements IRouteRepository {
         data.status,
         data.carrier,
         data.cost,
-        data.distanceKm ?? null
+        data.distanceKm          ?? null,
+        data.estimatedTimeHours  ?? null,
+        data.region              ?? null,
+        data.scheduledAt?.toISOString() ?? null,
+        data.estimatedAt?.toISOString() ?? null,
+        data.createdBy           ?? null,
       ],
     );
     return mapRowToRoute(result.rows[0]);
@@ -218,10 +225,22 @@ export class PostgressRouteRepository implements IRouteRepository {
         await client.query(
           `INSERT INTO routes
              (origin_city, destination_city, vehicle_type, status, carrier,
-              cost, distance_km, region, scheduled_at, estimated_at, created_by)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
-          [r.originCity, r.destinationCity, r.vehicleType, r.status, r.carrier,
-           r.cost, r.distanceKm ?? null, ],
+              cost, distance_km, estimated_time_hours, region, scheduled_at, estimated_at, created_by)
+           VALUES ($1,$2,$3,$4,$5,
+                   $6::numeric, $7::numeric, $8::numeric,
+                   $9, $10::timestamptz, $11::timestamptz, $12::uuid)`,
+          [r.originCity,
+            r.destinationCity,
+            r.vehicleType,
+            r.status,
+            r.carrier,
+            r.cost,
+            r.distanceKm          ?? null,
+            r.estimatedTimeHours  ?? null,
+            r.region              ?? null,
+            r.scheduledAt?.toISOString() ?? null,
+            r.estimatedAt?.toISOString() ?? null,
+            r.createdBy           ?? null, ],
         );
       }
       await client.query('COMMIT');
