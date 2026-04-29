@@ -11,10 +11,10 @@ import { NotificationService } from '../../../core/services/notification.service
 import {
   Route, RouteFilters, RouteStatus, VehicleType,
   ROUTE_STATUS_LABELS, VEHICLE_TYPE_LABELS,
-} from '../../../shared/models/route.models';
+} from '../../../shared/models/rout.model';
 import {
   DataTableComponent, TableColumn, CellTemplateDirective,
-} from '../../../shared/components/data-table/data-table.component';
+} from '../../../shared/components/data-table/data-table';
 
 @Component({
   selector: 'app-route-list',
@@ -116,7 +116,9 @@ export class RouteListComponent implements OnInit {
   }
 
   protected onDisable(route: Route): void {
-    if (!confirm(¿Inhabilitar la ruta ${route.originCity} → ${route.destinationCity}?)) return;
+    if (!confirm(`Inhabilitar la ruta ${route.originCity} → ${route.destinationCity}?`)) {
+      return;
+    }
     this.routeService.disableRoute(route.id).subscribe({
       next: () => { this.notification.success('Ruta inhabilitada'); this.resetAndLoad(); },
       error: () => this.notification.error('Error al inhabilitar la ruta'),
@@ -125,5 +127,13 @@ export class RouteListComponent implements OnInit {
 
   protected formatCost(value: number): string {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(value);
+  }
+
+  protected getStatusLabel(status: RouteStatus): string {
+  return this.statusLabels[status];
+}
+
+  protected getVehicleLabel(type: VehicleType): string {
+    return this.vehicleLabels[type];
   }
 }

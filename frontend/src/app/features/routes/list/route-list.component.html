@@ -42,11 +42,13 @@
     (prevPage)="onPrevPage()"
   >
     <ng-template appCellTemplate="status" let-row>
-      <span class="badge badge--{{ row.status | lowercase }}">{{ statusLabels[row.status] }}</span>
+      <span class="badge badge--{{ row.status | lowercase }}">
+        {{ getStatusLabel(row.status) }}
+      </span>
     </ng-template>
 
     <ng-template appCellTemplate="vehicleType" let-row>
-      {{ vehicleLabels[row.vehicleType] }}
+      {{ getVehicleLabel(row.vehicleType) }}
     </ng-template>
 
     <ng-template appCellTemplate="cost" let-row>

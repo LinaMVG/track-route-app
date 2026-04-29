@@ -2,21 +2,23 @@
   <div class="login-box">
     <h1>Iniciar Sesión</h1>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="username">Usuario</label>
         <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="correo@ejemplo.com"
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="usuario"
           required
         />
+
         <span
           class="error"
-          *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          *ngIf="form.get('username')?.invalid && form.get('username')?.touched"
         >
-          Email inválido
+          Usuario inválido (mínimo 3 caracteres)
         </span>
       </div>
 
@@ -29,15 +31,18 @@
           placeholder="tu contraseña"
           required
         />
+
         <span
           class="error"
-          *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
         >
-          Contraseña requerida
+          Contraseña requerida (mínimo 6 caracteres)
         </span>
       </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      <button type="submit" [disabled]="form.invalid">
+        Entrar
+      </button>
     </form>
 
     <p class="register-link">

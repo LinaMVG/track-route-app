@@ -10,7 +10,7 @@ import {
   VehicleType,
   ROUTE_STATUS_LABELS,
   VEHICLE_TYPE_LABELS,
-} from '../../../shared/models/route.models';
+} from '../../../shared/models/rout.model';
 
 @Component({
   selector: 'app-route-form',

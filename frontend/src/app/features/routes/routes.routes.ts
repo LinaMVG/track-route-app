@@ -10,12 +10,12 @@ export const routes: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./form/route-form.component').then((m) => m.RouteFormComponent),
+    loadComponent: () => import('../../features/routes/forms/route-form.component.component').then((m) => m.RouteFormComponent),
     canActivate: [authGuard, roleGuard('ADMIN')],
   },
   {
     path: 'edit/:id',
-    loadComponent: () => import('./form/route-form.component').then((m) => m.RouteFormComponent),
+    loadComponent: () => import('../../features/routes/forms/route-form.component.component').then((m) => m.RouteFormComponent),
     canActivate: [authGuard, roleGuard('ADMIN')],
   },
 ];

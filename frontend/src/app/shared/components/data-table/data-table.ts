@@ -28,17 +28,17 @@ export class CellTemplateDirective {
   selector: 'app-data-table',
   standalone: true,
   imports: [CommonModule, NgTemplateOutlet],
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss'],
+  templateUrl: './data-table.html',
+  styleUrls: ['./data-table.scss'],
 })
-export class DataTableComponent<T extends Record<string, unknown>> {
+export class DataTableComponent<T = unknown> {
   @Input() columns: TableColumn<T>[] = [];
   @Input() data: T[] = [];
   @Input() loading = false;
   @Input() total = 0;
   @Input() nextCursor: string | null = null;
   @Input() hasPrev = false;
-  @Input() trackBy: keyof T = 'id' as keyof T;
+  @Input() trackBy: string = 'id';
   @Input() showActions = false;
   @Input() actionsTemplate!: TemplateRef<unknown>;
   @Input() emptyMessage = 'No se encontraron registros';
@@ -77,6 +77,6 @@ export class DataTableComponent<T extends Record<string, unknown>> {
   }
 
   protected trackByFn(row: T): unknown {
-    return row[this.trackBy];
+    return (row as any)[this.trackBy];
   }
 }
