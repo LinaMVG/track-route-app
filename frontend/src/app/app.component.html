@@ -1,0 +1,39 @@
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 982 239"
+        fill="none"
+        class="angular-logo"
+      >
+        <!-- SVG content here -->
+      </svg>
+      <h1>Hello, {{ title }}</h1>
+      <p>Congratulations! Your app is running. 🎉</p>
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+      <div class="pill-group">
+        @for (item of [ { title: 'Explore the Docs', link: 'https://angular.dev'
+        }, { title: 'Learn with Tutorials', link:
+        'https://angular.dev/tutorials' }, { title: 'CLI Docs', link:
+        'https://angular.dev/tools/cli' }, { title: 'Angular Language Service',
+        link: 'https://angular.dev/tools/language-service' }, { title: 'Angular
+        DevTools', link: 'https://angular.dev/tools/devtools' }, ]; track
+        item.title) {
+        <a class="pill" [href]="item.link" target="_blank" rel="noopener">
+          {{ item.title }}
+        </a>
+        }
+      </div>
+      <div class="social-links">
+        <a href="https://github.com/angular/angular" rel="noopener">
+          <!-- Social icon here -->
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<router-outlet />
