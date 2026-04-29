@@ -1,0 +1,68 @@
+<div class="route-list">
+  <header class="page-header">
+    <div>
+      <h1>Rutas</h1>
+      <p class="subtitle">Gestión de rutas de transporte</p>
+    </div>
+    @if (isAdmin()) {
+      <a routerLink="new" class="btn btn--primary">+ Nueva ruta</a>
+    }
+  </header>
+
+  <!-- Filtros -->
+  <form [formGroup]="filterForm" class="filters">
+    <input formControlName="originCity"      class="form-control" placeholder="Origen" />
+    <input formControlName="destinationCity" class="form-control" placeholder="Destino" />
+    <input formControlName="carrier"         class="form-control" placeholder="Transportista" />
+    <select formControlName="vehicleType" class="form-control">
+      <option value="">Todos los vehículos</option>
+      @for (vt of vehicleTypes; track vt) {
+        <option [value]="vt">{{ vehicleLabels[vt] }}</option>
+      }
+    </select>
+    <select formControlName="status" class="form-control">
+      <option value="">Todos los estados</option>
+      @for (st of routeStatuses; track st) {
+        <option [value]="st">{{ statusLabels[st] }}</option>
+      }
+    </select>
+  </form>
+
+  <!-- Tabla -->
+  <app-data-table
+    [columns]="columns"
+    [data]="routes()"
+    [loading]="loading()"
+    [total]="total()"
+    [nextCursor]="nextCursor()"
+    [hasPrev]="hasPrev()"
+    [showActions]="true"
+    [actionsTemplate]="actionsRef"
+    (nextPage)="onNextPage($event)"
+    (prevPage)="onPrevPage()"
+  >
+    <ng-template appCellTemplate="status" let-row>
+      <span class="badge badge--{{ row.status | lowercase }}">{{ statusLabels[row.status] }}</span>
+    </ng-template>
+
+    <ng-template appCellTemplate="vehicleType" let-row>
+      {{ vehicleLabels[row.vehicleType] }}
+    </ng-template>
+
+    <ng-template appCellTemplate="cost" let-row>
+      {{ formatCost(row.cost) }}
+    </ng-template>
+  </app-data-table>
+
+  <!-- Actions column template -->
+  <ng-template #actionsRef let-row>
+    @if (isAdmin()) {
+      <div class="action-group">
+        <a [routerLink]="['edit', row.id]" class="btn btn--sm btn--outline">Editar</a>
+        @if (row.isEnabled) {
+          <button class="btn btn--sm btn--danger" (click)="onDisable(row)">Inhabilitar</button>
+        }
+      </div>
+    }
+  </ng-template>
+</div>

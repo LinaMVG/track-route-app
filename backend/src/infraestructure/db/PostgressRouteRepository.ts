@@ -10,17 +10,23 @@ import { AppError } from "@shared/errors/appError";
 
 function mapRowToRoute(row: Record<string, unknown>): Route {
   return {
-    id: row.id as string,
-    originCity: row.origin_city as string,
-    destinationCity: row.destination_city as string,
-    distanceKm: row.distance_km != null ? (row.distance_km as number) : 0,
-    estimatedTimeHours: row.estimated_time_hours as number,
-    vehicleType: row.vehicle_type as Route["vehicleType"],
-    carrier: row.carrier as string,
-    cost: row.cost as number,
-    status: row.status as Route["status"],
-    createdAt: row.created_at as Date,
-  };
+      id:                  row.id as string,
+      originCity:          row.origin_city as string,
+      destinationCity:     row.destination_city as string,
+      vehicleType:         row.vehicle_type as Route["vehicleType"],
+      status:              row.status as Route["status"],
+      carrier:             row.carrier as string,
+      cost:                Number(row.cost),
+      distanceKm:          row.distance_km != null ? Number(row.distance_km) : undefined,
+      estimatedTimeHours:  row.estimated_time_hours != null ? Number(row.estimated_time_hours) : undefined,
+      region:              row.region as string | undefined,
+      scheduledAt:         row.scheduled_at ? new Date(row.scheduled_at as string) : undefined,
+      estimatedAt:         row.estimated_at ? new Date(row.estimated_at as string) : undefined,
+      isEnabled:           row.is_enabled as boolean,
+      createdBy:           row.created_by as string | undefined,
+      createdAt:           new Date(row.created_at as string),
+      updatedAt:           new Date(row.updated_at as string),
+    };
 }
 
 function encodeCursor(route: Route): string {
@@ -122,7 +128,7 @@ export class PostgressRouteRepository implements IRouteRepository {
 
   async findActive(): Promise<Route[]> {
     const result = await this.pool.query(
-      `SELECT * FROM routes WHERE status    = 'ACTIVE' AND is_enabled = TRUE ORDER BY created_at DESC`,
+      `SELECT * FROM routes WHERE status    = 'ACTIVA' AND is_enabled = TRUE ORDER BY created_at DESC`,
     );
     return result.rows.map(mapRowToRoute);
   }

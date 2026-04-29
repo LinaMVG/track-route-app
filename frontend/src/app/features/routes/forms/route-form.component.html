@@ -1,0 +1,84 @@
+<div class="route-form">
+  <header class="page-header">
+    <div>
+      <h1>{{ isEdit() ? 'Editar ruta' : 'Nueva ruta' }}</h1>
+    </div>
+    <a routerLink="/routes" class="btn btn--outline">← Volver</a>
+  </header>
+
+  @if (loading() && isEdit()) {
+    <div class="loading-overlay">Cargando…</div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card form-card" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Ciudad origen *</label>
+          <input formControlName="originCity" class="form-control" [class.error]="form.get('originCity')?.invalid && form.get('originCity')?.touched" />
+          @if (form.get('originCity')?.invalid && form.get('originCity')?.touched) {
+            <span class="error-msg">Requerido</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Ciudad destino *</label>
+          <input formControlName="destinationCity" class="form-control" [class.error]="form.get('destinationCity')?.invalid && form.get('destinationCity')?.touched" />
+          @if (form.get('destinationCity')?.invalid && form.get('destinationCity')?.touched) {
+            <span class="error-msg">Requerido</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Transportista *</label>
+          <input formControlName="carrier" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de vehículo *</label>
+          <select formControlName="vehicleType" class="form-control">
+            <option value="">Seleccionar…</option>
+            @for (vt of vehicleTypes; track vt) {
+              <option [value]="vt">{{ vehicleLabels[vt] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Estado *</label>
+          <select formControlName="status" class="form-control">
+            <option value="">Seleccionar…</option>
+            @for (st of routeStatuses; track st) {
+              <option [value]="st">{{ statusLabels[st] }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Costo (USD) *</label>
+          <input formControlName="cost" type="number" min="0" step="0.01" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Distancia (km)</label>
+          <input formControlName="distanceKm" type="number" min="0" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Tiempo estimado (horas)</label>
+          <input formControlName="estimatedTimeHours" type="number" min="0" step="0.5" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Región</label>
+          <input formControlName="region" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/routes" class="btn btn--outline">Cancelar</a>
+        <button type="submit" class="btn btn--primary" [disabled]="loading()">
+          {{ loading() ? 'Guardando…' : (isEdit() ? 'Actualizar' : 'Crear ruta') }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

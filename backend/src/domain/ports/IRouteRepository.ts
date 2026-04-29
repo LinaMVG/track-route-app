@@ -1,4 +1,3 @@
-import { int } from 'zod';
 import {Route, CreateRouteDTO, UpdateRouteDTO} from '../entities/Route';
 import {RouteStatus, VehicleType} from '../objects/RouteStatus';
 
@@ -28,7 +27,6 @@ export interface IRouteRepository {
     create(routeData: CreateRouteDTO): Promise<Route>;
     update(id: string, routeData: UpdateRouteDTO): Promise<Route | null>;
     disable(id: string): Promise<Route>;
-    delete(id: string): Promise<Route>;
     bulkCreate(routes: CreateRouteDTO[]): Promise<{ inserted: number }>;
     countByStatus(): Promise<Record<string, number>>;
     topByCost(limit: number): Promise<Route[]>;

@@ -1,18 +1,23 @@
-import { RouteStatus, VehicleType } from "@domain/objects/RouteStatus";
+import { RouteStatus, VehicleType } from '../objects/RouteStatus';
 
 export interface Route {
     id: string;
     originCity: string;
     destinationCity: string;
-    distanceKm: number;
-    estimatedTimeHours: number;
     vehicleType: VehicleType;
+    status: RouteStatus;
     carrier: string;
     cost: number;
-    status: RouteStatus;
+    distanceKm?: number;
+    estimatedTimeHours?: number;
+    region?: string;
+    scheduledAt?: Date;
+    estimatedAt?: Date;
+    isEnabled: boolean;
+    createdBy?: string;
     createdAt: Date;
+    updatedAt: Date;
 }
 
-export type CreateRouteDTO = Omit<Route, 'id' | 'createdAt'>;
-
+export type CreateRouteDTO = Omit<Route, 'id' | 'isEnabled' | 'createdAt' | 'updatedAt'>;
 export type UpdateRouteDTO = Partial<CreateRouteDTO>;

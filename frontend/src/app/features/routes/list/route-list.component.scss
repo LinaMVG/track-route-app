@@ -1,0 +1,27 @@
+.route-list { padding: 1.5rem; }
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+  h1 { margin: 0; } .subtitle { color: #666; margin: .25rem 0 0; font-size: .9rem; } }
+
+.filters { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 1.25rem;
+  .form-control { flex: 1; min-width: 140px; } }
+
+.form-control { padding: .5rem .75rem; border: 1.5px solid #ddd; border-radius: 6px; font-size: .875rem;
+  &:focus { outline: none; border-color: #1a237e; } }
+
+.badge {
+  display: inline-block; padding: .2rem .6rem; border-radius: 12px; font-size: .78rem; font-weight: 600;
+  &--activa          { background: #e8f5e9; color: #2e7d32; }
+  &--inactiva        { background: #f5f5f5; color: #555; }
+  &--suspendida      { background: #fff3e0; color: #e65100; }
+  &--en_mantenimiento { background: #e3f2fd; color: #1565c0; }
+}
+
+.action-group { display: flex; gap: .4rem; justify-content: center; }
+.btn {
+  padding: .45rem 1rem; border-radius: 5px; font-size: .875rem; cursor: pointer;
+  border: none; text-decoration: none; display: inline-block; transition: all .2s;
+  &--primary { background: #1a237e; color: #fff; &:hover { background: #283593; } }
+  &--outline  { background: #fff; border: 1.5px solid #ddd; color: #333; &:hover { border-color: #1a237e; color: #1a237e; } }
+  &--danger   { background: #c62828; color: #fff; &:hover { background: #b71c1c; } }
+  &--sm       { padding: .3rem .7rem; font-size: .8rem; }
+}
