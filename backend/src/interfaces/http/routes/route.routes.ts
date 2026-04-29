@@ -4,7 +4,7 @@ import { requireAuth } from '../middlewares/auth.middleware';
 import { requireRole } from '../middlewares/rbac.middleware';
 import { CreateRouteSchema, UpdateRouteSchema, RouteFiltersSchema } from '../schemas/route.schema';
 import { PostgressRouteRepository } from '../../../infraestructure/db/PostgressRouteRepository';
-import { ListRoutesUseCase }    from '../../../application/routes/ListRoutesuseCaseistRoutesuseCase';
+import { ListRoutesUseCase }    from '@application/routes/ListRoutesuseCase';
 import { CreateRouteUseCase }   from '../../../application/routes/CreateRouteUseCase';
 import { DisableRouteUseCase }   from '../../../application/routes/DisableRouteUseCase';
 import { UpdateRouteUseCase }   from '../../../application/routes/UpdateRouteUseCase';
