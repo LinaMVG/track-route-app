@@ -7,6 +7,8 @@ import jwt from '@fastify/jwt';
 import multipart from '@fastify/multipart';
 import websocket from '@fastify/websocket';
 import {randomUUID} from 'crypto';
+import { getDatabasePool } from './shared/container';
+import { authRoutes } from './interfaces/http/routes/auth.routes';
 
 import {logger} from './shared/logger';
 import {errorHandler} from './shared/errors/error-handler';
@@ -32,6 +34,8 @@ async function buildServer() {
         logger: false,
         genReqId: () => randomUUID(),
     });
+
+    const pool = getDatabasePool();
 
     await app.register(helmet, {
         contentSecurityPolicy: process.env.NODE_ENV === 'production' ,
@@ -71,10 +75,18 @@ async function buildServer() {
     });
 
     app.setErrorHandler(errorHandler);
+        await app.register(async (api) =>{
+        await api.register(authRoutes, { prefix: '/auth', pool });
+        //siguientes rutas
+    }, {prefix: '/api'});
 
     app.get('/health', async () => ({
         status: 'ok', timestamp: new Date().toISOString()
     }));
+
+    app.addHook('onClose', async () => {
+        await pool.end();
+    });
 
     return app;
     
