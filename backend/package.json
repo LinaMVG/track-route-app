@@ -12,7 +12,7 @@
     "migrate": "tsx src/infraestructure/db/migrate.ts",
     "seed": "tsx src/infraestructure/db/seed.ts",
     "soap:mock": "tsx src/infraestructure/soap/mock-server.ts",
-    "test": "jest --runInBand",
+    "test": "jest ",
     "test:coverage": "jest --coverage --runInBand"
   },
   "keywords": [],
