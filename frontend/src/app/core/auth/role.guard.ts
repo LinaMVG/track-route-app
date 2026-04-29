@@ -1,4 +1,4 @@
-import { Inject } from "@angular/core";
+import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 import { UserRole } from "../../shared/models/auth.model";
@@ -10,8 +10,8 @@ import { UserRole } from "../../shared/models/auth.model";
 
 export function roleGuard(...allowedRoles: UserRole[]): CanActivateFn {
   return () => {
-    const authService = Inject(AuthService);
-    const router = Inject(Router);
+    const authService = inject(AuthService);
+    const router = inject(Router);
     const  user = authService.user();
 
     if(!user) {
@@ -20,5 +20,6 @@ export function roleGuard(...allowedRoles: UserRole[]): CanActivateFn {
     if(allowedRoles.includes(user.role)) {
       return true;
     }
+    return router.createUrlTree(['/unauthorized']);
   };
 }
