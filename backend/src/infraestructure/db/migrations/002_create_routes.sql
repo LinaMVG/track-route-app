@@ -1,0 +1,13 @@
+-- TABLA DE RUTAS
+CREATE TABLE IF NOT EXISTS routes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    origin_city VARCHAR(255) NOT NULL,
+    destination_city VARCHAR(255) NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL CHECK (vehicle_type IN ('CAMION', 'TRACTOMULA', 'FURGONETA', 'MOTO_CARGO')),
+    status VARCHAR(50) NOT NULL CHECK (status IN ('ACTIVA', 'SUSPENDIDA', 'EN_MANTENIMIENTO')),
+    carrier VARCHAR(255) NOT NULL,
+    cost FLOAT NOT NULL,
+    distance_km NUMERIC(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
